@@ -45,8 +45,7 @@ if [ ! -f $titanic_file ]; then
 	# Transform Sex Data
 	echo "titanic_clean['Sex'] = titanic_clean['Sex'].replace(['female','male'],[0,1])" >> $titanic_file
 	# Transform SibSp and Parch data
-	echo "titanic_clean['inFamily'] = (titanic_clean['SibSp'] > 0) | (titanic_clean['Parch'] > 0)" >> $titanic_file
-	echo "titanic_clean['inFamily'] = titanic_clean['inFamily'].astype(int)" >> $titanic_file
+	echo "titanic_clean['Members_Family'] = titanic_clean['SibSp'] + titanic_clean['Parch']" >> $titanic_file
 	echo "titanic_clean.drop(['SibSp', 'Parch'],axis=1,inplace=True)" >> $titanic_file
 	# Transform age data
 	echo "titanic_clean.loc[titanic_clean['Age']<=20, 'Age'] = 0" >> $titanic_file
@@ -122,7 +121,7 @@ if [ ! -f $titanic_file ]; then
 	echo "plt.clf()" >> $titanic_file
 	echo "generate graohic titanic_fare_Pclass_survived.png"
 	# Survived inFamily
-	echo "sns.barplot(x=titanic_clean['inFamily'], y=titanic_clean['Survived'])" >> $titanic_file
+	echo "sns.catplot(x ='Members_Family', hue ='Survived', kind ='count', data = titanic_clean)" >> $titanic_file
 	echo "plt.savefig('titanic_inFamily_survived.png')" >> $titanic_file
 	echo "plt.clf()" >> $titanic_file
 	echo "generate graphic titanic_inFamily_survived.png"
