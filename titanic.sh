@@ -31,8 +31,10 @@ if [ ! -f $titanic_file ]; then
 	echo "from sklearn.neighbors import KNeighborsClassifier" >> $titanic_file
 	echo "from sklearn.svm import SVC" >> $titanic_file
 	# Load dataset titanic
+	echo "# Load dataset titanic" >> $titanic_file
 	echo "titanic = pd.read_csv('https://raw.githubusercontent.com/p72losaj/Datasets/main/titanic.csv')" >> $titanic_file
 	# Titanic Preprocessing
+	echo "# Titanic Preprocessing" >> $titanic_file
 	echo "titanic_clean = titanic.copy()" >> $titanic_file
 	# Drop innecesary information
 	echo "titanic_clean.drop(['PassengerId', 'Name', 'Ticket', 'Cabin', 'Embarked'],axis=1,inplace=True)" >> $titanic_file
@@ -63,6 +65,7 @@ if [ ! -f $titanic_file ]; then
 	# Save titanic_clean
 	echo 'titanic_clean.to_csv("titanic_clean.csv")' >> $titanic_file
 	# Apply algorithms of mining data
+	echo "# Apply algorithms" >> $titanic_file
 	# Create models
 	echo "models = [DecisionTreeClassifier(), KNeighborsClassifier(n_neighbors=3), RandomForestClassifier(), SVC(probability = True)]" >> $titanic_file
 	echo "classifiers = []" >> $titanic_file
@@ -95,6 +98,34 @@ if [ ! -f $titanic_file ]; then
 	echo "sns.barplot(x=log.Accuracy, y=classifiers, data=log, color='b')" >> $titanic_file
         echo "plt.savefig('classifiers_titanic.png')" >> $titanic_file
 	echo "plt.clf()" >> $titanic_file
+	echo "generate graphic classifiers_titanic.png"
+	# Analysis titanic data
+	echo "# Analysis titanic data" >> $titanic_file
+	# class balance
+	echo "sns.countplot(x='Survived', data=titanic_clean)" >> $titanic_file
+	echo "plt.title('titanic class')" >> $titanic_file
+	echo "plt.savefig('titanic_class.png')" >> $titanic_file
+	echo "plt.clf()" >> $titanic_file
+	echo "Generate graphic titanic_class.png"
+	# Distribution of survived people by sex and age
+	echo "titanic_clean['Sex'] = titanic_clean['Sex'].replace([0,1],['Female','Male'])" >> $titanic_file
+	echo "titanic_clean.loc[ titanic_clean['Age'] == 0, 'Age'] = 'Young' " >> $titanic_file
+	echo "titanic_clean.loc[ titanic_clean['Age'] == 1, 'Age'] = 'Adult' " >> $titanic_file
+	echo "titanic_clean.loc[ titanic_clean['Age'] == 2, 'Age'] = 'Elderly'" >> $titanic_file
+	echo "sns.catplot(x ='Age', hue ='Survived', kind ='count', col ='Sex', data = titanic_clean)" >> $titanic_file
+	echo "plt.savefig('titanic_age_sex_survived.png')" >> $titanic_file
+	echo "plt.clf()" >> $titanic_file
+	echo "generate graphic titanic_age_sex_survived.png"
+	# Survived class by Fare and PClass
+	echo "sns.catplot(x ='Fare', hue ='Survived', kind ='count', col ='Pclass', data = titanic_clean)" >> $titanic_file
+	echo "plt.savefig('titanic_fare_Pclass_survived.png')" >> $titanic_file
+	echo "plt.clf()" >> $titanic_file
+	echo "generate graohic titanic_fare_Pclass_survived.png"
+	# Survived inFamily
+	echo "sns.barplot(x=titanic_clean['inFamily'], y=titanic_clean['Survived'])" >> $titanic_file
+	echo "plt.savefig('titanic_inFamily_survived.png')" >> $titanic_file
+	echo "plt.clf()" >> $titanic_file
+	echo "generate graphic titanic_inFamily_survived.png"
 fi
 
 # Execute titanic.py
