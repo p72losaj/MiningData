@@ -122,9 +122,9 @@ if [ ! -f $titanic_file ]; then
 	echo "generate graohic titanic_fare_Pclass_survived.png"
 	# Survived inFamily
 	echo "sns.catplot(x ='Members_Family', hue ='Survived', kind ='count', data = titanic_clean)" >> $titanic_file
-	echo "plt.savefig('titanic_inFamily_survived.png')" >> $titanic_file
+	echo "plt.savefig('titanic_Member_Family_survived.png')" >> $titanic_file
 	echo "plt.clf()" >> $titanic_file
-	echo "generate graphic titanic_inFamily_survived.png"
+	echo "generate graphic titanic_Member_Family_survived.png"
 fi
 
 # Execute titanic.py
