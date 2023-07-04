@@ -112,7 +112,7 @@ if [ ! -f $titanic_file ]; then
 	echo "plt.title('titanic class')" >> $titanic_file
 	echo "plt.savefig('titanic_class.png')" >> $titanic_file
 	echo "plt.clf()" >> $titanic_file
-	echo "Generate graphic titanic_class.png"
+
 	# Distribution of survived people by sex and age
 	echo "titanic_clean['Sex'] = titanic_clean['Sex'].replace([0,1],['Female','Male'])" >> $titanic_file
 	echo "titanic_clean.loc[ titanic_clean['Age'] == 0, 'Age'] = 'Young' " >> $titanic_file
@@ -121,17 +121,17 @@ if [ ! -f $titanic_file ]; then
 	echo "sns.catplot(x ='Age', hue ='Survived', kind ='count', col ='Sex', data = titanic_clean)" >> $titanic_file
 	echo "plt.savefig('titanic_age_sex_survived.png')" >> $titanic_file
 	echo "plt.clf()" >> $titanic_file
-	echo "generate graphic titanic_age_sex_survived.png"
+
 	# Survived class by Fare and PClass
 	echo "sns.catplot(x ='Fare', hue ='Survived', kind ='count', col ='Pclass', data = titanic_clean)" >> $titanic_file
 	echo "plt.savefig('titanic_fare_Pclass_survived.png')" >> $titanic_file
 	echo "plt.clf()" >> $titanic_file
-	echo "generate graohic titanic_fare_Pclass_survived.png"
+
 	# Survived inFamily
 	echo "sns.catplot(x ='Members_Family', hue ='Survived', kind ='count', data = titanic_clean)" >> $titanic_file
 	echo "plt.savefig('titanic_Member_Family_survived.png')" >> $titanic_file
 	echo "plt.clf()" >> $titanic_file
-	echo "generate graphic titanic_Member_Family_survived.png"
+
 fi
 
 # Execute titanic.py
