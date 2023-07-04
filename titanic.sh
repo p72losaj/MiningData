@@ -30,6 +30,7 @@ if [ ! -f $titanic_file ]; then
 	echo "from sklearn.ensemble import RandomForestClassifier" >> $titanic_file
 	echo "from sklearn.neighbors import KNeighborsClassifier" >> $titanic_file
 	echo "from sklearn.svm import SVC" >> $titanic_file
+	echo "from sklearn.metrics import confusion_matrix" >> $titanic_file
 	# Load dataset titanic
 	echo "# Load dataset titanic" >> $titanic_file
 	echo "titanic = pd.read_csv('https://raw.githubusercontent.com/p72losaj/Datasets/main/titanic.csv')" >> $titanic_file
@@ -100,6 +101,13 @@ if [ ! -f $titanic_file ]; then
 	echo "generate graphic classifiers_titanic.png"
 	# Analysis titanic data
 	echo "# Analysis titanic data" >> $titanic_file
+	# Confusion Matrix
+	echo "classifier = SVC(probability = True)" >> $titanic_file
+	echo "classifier.fit(train_titanic,test_titanic)" >> $titanic_file
+	echo "print('Show confusion matrix')" >> $titanic_file
+	echo "print(test_titanic.unique())" >> $titanic_file
+	echo "cm = confusion_matrix(test_titanic, classifier.predict(train_titanic))" >> $titanic_file
+	echo "print(cm)" >> $titanic_file
 	# class balance
 	echo "sns.countplot(x='Survived', data=titanic_clean)" >> $titanic_file
 	echo "plt.title('titanic class')" >> $titanic_file
