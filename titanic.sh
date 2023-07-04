@@ -71,7 +71,7 @@ if [ ! -f $titanic_file ]; then
 	echo "classifiers = []" >> $titanic_file
 	echo "log_cols = ['Classifier', 'Accuracy']" >> $titanic_file
 	echo "log = pd.DataFrame(columns=log_cols)" >> $titanic_file
-	echo "acc_dict = {}" >> $titanic_file
+	echo "acc_dict = {}; best_acc = 0; best_classifier='' " >> $titanic_file
         # train and test
 	echo "i=0" >> $titanic_file
 	echo "train_titanic = titanic_clean.drop(['Survived'], axis=1)" >> $titanic_file
@@ -82,12 +82,11 @@ if [ ! -f $titanic_file ]; then
 	echo -e "\t name = model.__class__.__name__" >> $titanic_file
 	echo -e "\t classifiers.append(name)" >> $titanic_file
 	echo -e "\t acc = cross_val_score(model, train_titanic, test_titanic, cv=5, scoring='accuracy').mean()" >> $titanic_file
-	echo -e "\t if name in acc_dict:" >> $titanic_file
-	echo -e "\t \t acc_dict[name] += acc" >> $titanic_file
-	echo -e "\t else:" >> $titanic_file
-	echo -e "\t \t acc_dict[name] = acc" >> $titanic_file
+	echo -e "\t acc_dict[name] = acc" >> $titanic_file
 	echo -e "\t log.loc[i, log_cols[0]] = models[i]" >> $titanic_file
 	echo -e "\t log.loc[i, log_cols[1]] = acc_dict[name]" >> $titanic_file
+	echo -e "\t if acc > best_acc: " >> $titanic_file
+	echo -e "\t \t best_acc = acc; best_classifier = models[i]" >> $titanic_file
 	echo -e "\t i += 1" >> $titanic_file
 	# Print result
 	echo "print('Show results: ');print(log)" >> $titanic_file
@@ -102,12 +101,12 @@ if [ ! -f $titanic_file ]; then
 	# Analysis titanic data
 	echo "# Analysis titanic data" >> $titanic_file
 	# Confusion Matrix
-	echo "classifier = SVC(probability = True)" >> $titanic_file
-	echo "classifier.fit(train_titanic,test_titanic)" >> $titanic_file
-	echo "print('Show confusion matrix')" >> $titanic_file
+	echo "best_classifier.fit(train_titanic,test_titanic)" >> $titanic_file
+	echo "print('Show confusion matrix for best classifier: ', best_classifier)" >> $titanic_file
 	echo "print(test_titanic.unique())" >> $titanic_file
-	echo "cm = confusion_matrix(test_titanic, classifier.predict(train_titanic))" >> $titanic_file
+	echo "cm = confusion_matrix(test_titanic, best_classifier.predict(train_titanic))" >> $titanic_file
 	echo "print(cm)" >> $titanic_file
+
 	# class balance
 	echo "sns.countplot(x='Survived', data=titanic_clean)" >> $titanic_file
 	echo "plt.title('titanic class')" >> $titanic_file
